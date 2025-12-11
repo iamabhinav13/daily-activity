@@ -1,0 +1,25 @@
+name: auto-commit
+
+on:
+  schedule:
+    # Runs 18 times per day
+    - cron: "0 */2 * * *"
+    - cron: "30 */2 * * *"
+
+jobs:
+  commit-job:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Run script
+        run: python update.py
+
+      - name: Commit changes
+        run: |
+          git config user.name "iamabhinav13"
+          git config user.email "saxenaabhinav567@gmail.com"
+          git add .
+          git commit -m "update" || echo "No changes"
+          git push
